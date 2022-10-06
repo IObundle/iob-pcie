@@ -14,24 +14,54 @@ module iob_pcie
 `include "iob_s_if.vh"
 
     // External interface
-    `IOB_OUTPUT(valid_ext,   1),
-    `IOB_OUTPUT(address_ext, ADDR_W),
-    `IOB_OUTPUT(wdata_ext,   DATA_W),
-    `IOB_OUTPUT(wstrb_ext,   DATA_W/8),
-    `IOB_INPUT(rdata_ext,  DATA_W),
-    `IOB_INPUT(ready_ext,  1),
+    `IOB_INPUT(PCIE_CLK, 1),
+    `IOB_INPUT(PCIE_RST, 1),
+    `IOB_INPUT(PCIE_CHNL_RX, 1),
+    `IOB_OUTPUT(PCIE_CHNL_RX_CLK, 1),
+    `IOB_OUTPUT(PCIE_CHNL_RX_ACK, 1),
+    `IOB_INPUT(PCIE_CHNL_RX_LAST, 1),
+    `IOB_INPUT(PCIE_CHNL_RX_LEN, 32),
+    `IOB_INPUT(PCIE_CHNL_RX_OFF, 31),
+    `IOB_INPUT(PCIE_CHNL_RX_DATA, 32),
+    `IOB_INPUT(PCIE_CHNL_RX_DATA_VALID, 1),
+    `IOB_OUTPUT(PCIE_CHNL_RX_DATA_REN, 1),
+    `IOB_OUTPUT(PCIE_CHNL_TX_CLK, 1),
+    `IOB_OUTPUT(PCIE_CHNL_TX, 1),
+    `IOB_INPUT(PCIE_CHNL_TX_ACK, 1),
+    `IOB_OUTPUT(PCIE_CHNL_TX_LAST, 1),
+    `IOB_OUTPUT(PCIE_CHNL_TX_LEN, 32),
+    `IOB_OUTPUT(PCIE_CHNL_TX_OFF, 31),
+    `IOB_OUTPUT(PCIE_CHNL_TX_DATA, 32),
+    `IOB_OUTPUT(PCIE_CHNL_TX_DATA_VALID, 1),
+    `IOB_INPUT(PCIE_CHNL_TX_DATA_REN, 1),
 
 
 `include "iob_gen_if.vh"
     );
 
-    // Connect interfaces
-    assign valid_ext = valid;
-    assign address_ext = address;
-    assign wdata_ext = wdata;
-    assign wstrb_ext = wstrb;
-    assign rdata = rdata_ext;
-    assign ready = ready_ext;
+iob_pcie_core iob_pcie_core0
+  (
+    .CLK(PCIE_CLK),
+    .RST(PCIE_RST),
+    .CHNL_RX_CLK(PCIE_CHNL_RX_CLK),
+    .CHNL_RX(PCIE_CHNL_RX),
+    .CHNL_RX_ACK(PCIE_CHNL_RX_ACK),
+    .CHNL_RX_LAST(PCIE_CHNL_RX_LAST),
+    .CHNL_RX_LEN(PCIE_CHNL_RX_LEN),
+    .CHNL_RX_OFF(PCIE_CHNL_RX_OFF),
+    .CHNL_RX_DATA(PCIE_CHNL_RX_DATA),
+    .CHNL_RX_DATA_VALID(PCIE_CHNL_RX_DATA_VALID),
+    .CHNL_RX_DATA_REN(PCIE_CHNL_RX_DATA_REN),
+    .CHNL_TX_CLK(PCIE_CHNL_TX_CLK),
+    .CHNL_TX(PCIE_CHNL_TX),
+    .CHNL_TX_ACK(PCIE_CHNL_TX_ACK),
+    .CHNL_TX_LAST(PCIE_CHNL_TX_LAST),
+    .CHNL_TX_LEN(PCIE_CHNL_TX_LEN),
+    .CHNL_TX_OFF(PCIE_CHNL_TX_OFF),
+    .CHNL_TX_DATA(PCIE_CHNL_TX_DATA),
+    .CHNL_TX_DATA_VALID(PCIE_CHNL_TX_DATA_VALID),
+    .CHNL_TX_DATA_REN(PCIE_CHNL_TX_DATA_REN)
+    );
 
 endmodule
     
